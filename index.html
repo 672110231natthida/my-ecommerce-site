@@ -1568,13 +1568,12 @@
 
                   <div class="form-group row">
                     <div class="col-md-6">
-
                       <input type="submit" class="btn btn-primary py-3 px-5 btn-block" value="Register">
                     </div>
                   </div>
-
                 </form>
               </div>
+
               <div role="tabpanel" class="tab-pane" id="sign-in">
                 <form method="post" data-aos="fade">
 
@@ -1821,11 +1820,11 @@
         message: document.getElementById("message").value
       }
       console.log(data);
-   
+
       let response = ajax({
-        url : 'hppt://localhost:4000/api/contact',
-        method : 'POST',
-        data : data
+        url: 'hppt://localhost:4000/api/contact',
+        method: 'POST',
+        data: data
       });
     }
 
