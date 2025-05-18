@@ -1,26 +1,33 @@
-// backend/routes/login.js
-const express = require("express");
-const fs = require("fs");
-const path = require("path");
+// 📁 backend/routes/login.js
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const router = express.Router();
 
-const userDataPath = path.join(__dirname, "../data/user.json");
+router.post('/', (req, res) => {
+  const { username, password } = req.body;
 
-router.post("/", (req, res) => {
-    const { email, password } = req.body;
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Username and Password are required.' });
+  }
 
-    if (!fs.existsSync(userDataPath)) {
-        return res.status(404).send("No users found.");
+  const userFilePath = path.join(__dirname, '../data/user.json');
+  fs.readFile(userFilePath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).json({ message: 'Server Error' });
+
+    const users = JSON.parse(data);
+    const user = users.find(u => u.email === username);
+
+    if (!user) {
+      return res.json({ message: 'Incorrected Username' });
     }
 
-    const fileContent = fs.readFileSync(userDataPath);
-    const users = JSON.parse(fileContent);
+    if (user.password !== password) {
+      return res.json({ message: 'Incorrected Password.' });
+    }
 
-    const user = users.find(u => u.email === email);
-    if (!user) return res.status(401).send("Incorrected Username");
-    if (user.password !== password) return res.status(401).send("Incorrected Password.");
-
-    res.send("Login successfully");
+    return res.json({ message: 'Login successfully.' });
+  });
 });
 
 module.exports = router;

@@ -1507,6 +1507,8 @@
                     </div>
                     <div class="col-md-6">
                       <input id="lname" type="text" class="form-control" placeholder="Last name">
+
+
                     </div>
                   </div>
 
@@ -1545,68 +1547,86 @@
               </div>
               <div role="tabpanel" class="tab-pane" id="register">
                 <form method="post" data-aos="fade">
+
+                  <!-- First & Last Name -->
                   <div class="form-group row">
                     <div class="col-md-6 mb-3 mb-lg-0">
-                      <input type="text" class="form-control" placeholder="First name">
+                      <input type="text" class="form-control" placeholder="First name" id="first-name">
                     </div>
                     <div class="col-md-6">
-                      <input type="text" class="form-control" placeholder="Last name">
+                      <input type="text" class="form-control" placeholder="Last name" id="last-name">
                     </div>
                   </div>
 
+                  <!-- Occupation Category & Occupation -->
                   <div class="form-group row">
-                    <div class="col-md-12">
-                      <input type="text" class="form-control" placeholder="Occupation">
+                    <div class="col-md-6 mb-3 mb-lg-0">
+                      <select id="occupation-category" class="form-control">
+                        <option value="">Select Category</option>
+                      </select>
                     </div>
-                  </div>
-
-                  <div class="form-group row">
-                    <div class="col-md-12">
-                      <input type="email" class="form-control" placeholder="Email">
-                    </div>
-                  </div>
-
-                  <div class="form-group row">
                     <div class="col-md-6">
-
-                      <input type="submit" class="btn btn-primary py-3 px-5 btn-block" value="Register">
+                      <select id="occupation" class="form-control">
+                        <option value="">Select Occupation</option>
+                      </select>
                     </div>
                   </div>
 
-                </form>
+                  <!-- Email -->
+                  <div class="form-group row">
+                    <div class="col-md-12">
+                      <input type="email" class="form-control" placeholder="Email" id="reg-email">
+                    </div>
+                  </div>
+
+                  <!-- Password -->
+                  <div class="form-group row">
+                    <div class="col-md-12">
+                      <input type="password" class="form-control" placeholder="Password" id="reg-password">
+                    </div>
+                  </div>
+
+              <div class="form-group row">
+                <div class="col-md-6">
+
+                  <input type="submit" onclick ="submitRegister()" class="btn btn-primary py-3 px-5 btn-block" value="Register">
+                </div>
               </div>
-              <div role="tabpanel" class="tab-pane" id="sign-in">
-                <form method="post" data-aos="fade">
 
-                  <div class="form-group row">
-                    <div class="col-md-12">
-                      <input type="text" class="form-control" placeholder="Username">
-                    </div>
-                  </div>
-
-                  <div class="form-group row">
-                    <div class="col-md-12">
-                      <input type="password" class="form-control" placeholder="Password">
-                    </div>
-                  </div>
-
-                  <div class="form-group row">
-                    <div class="col-md-6">
-
-                      <input type="submit" class="btn btn-primary py-3 px-5 btn-block" value="Login">
-                    </div>
-                  </div>
-
-                </form>
-              </div>
+              </form>
             </div>
+            <div role="tabpanel" class="tab-pane" id="sign-in">
+              <form method="post" data-aos="fade">
 
+                <div class="form-group row">
+                  <div class="col-md-12">
+                    <input type="text" class="form-control" placeholder="Username">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-md-12">
+                    <input type="password" class="form-control" placeholder="Password">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-md-6">
+
+                    <input type="submit" class="btn btn-primary py-3 px-5 btn-block" value="Login">
+                  </div>
+                </div>
+
+              </form>
+            </div>
           </div>
 
-
         </div>
+
+
       </div>
     </div>
+  </div>
   </div>
 
 
@@ -1691,7 +1711,9 @@
   <script src="js/main.js"></script>
 
   <script>
-
+    <select id="category">
+      <option value="">-- Select Category --</option>
+    </select>
 
 
 
@@ -1794,6 +1816,7 @@
       loadDoc("./xml/class_sunday.xml", classXML);
       loadDoc("./json/class_sunday.json", classJSON);
       loadSubject('http://localhost:4000/api/subject');
+      loadCategories();
     };
     //AJAX Function
     const ajax = async (config) => {
@@ -1811,7 +1834,7 @@
     }
 
 
-
+7
     function submitContact() {
       const data = {
         fname: document.getElementById("fname").value,
@@ -1821,160 +1844,103 @@
         message: document.getElementById("message").value
       }
       console.log(data);
-   
+
     }
-<div class="container mt-5">
-  <ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#signin" role="tab">Sign In</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab">Register</a>
-    </li>
-  </ul>
+  
+    async function submitRegister() {
+      const fname = document.getElementById("firstName").value;
+      const lname = document.getElementById("lastName").value;
+      const email = document.getElementById("reg-email").value;
+      const password = document.getElementById("reg-password").value;
+      const category = document.getElementById("occupation-category").value;
+      const occupation = document.getElementById("occupation").value;
 
-  <div class="tab-content p-4 border border-top-0" id="myTabContent">
-   
-    <div class="tab-pane fade show active" id="signin" role="tabpanel">
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="loginEmail">Email</label>
-          <input id="loginEmail" type="email" class="form-control" placeholder="Email" />
-        </div>
-        <div class="form-group">
-          <label for="loginPassword">Password</label>
-          <input id="loginPassword" type="password" class="form-control" placeholder="Password" />
-        </div>
-        <div class="form-group">
-          <button type="button" class="btn btn-primary" onclick="submitLogin()">Sign In</button>
-          <button type="button" class="btn btn-outline-secondary" onclick="logout()">Logout</button>
-        </div>
-      </form>
-    </div>
+      if (!fname || !lname || !email || !password || !category || !occupation) {
+        alert("Please fill all fields.");
+        return;
+      }
 
+      const userData = { fname, lname, email, password, category, occupation };
+
+      const response = await fetch("http://localhost:5000/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData)
+      });
+
+      const result = await response.text();
+      alert(result);
+    }
+
+    async function submitLogin() {
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      if (!email || !password) {
+        alert("Please enter email and password.");
+        return;
+      }
+
+      const response = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+
+      const result = await response.text();
+      alert(result);
+    }
+
+    function logout() {
+      alert("Logged out successfully");
+      document.getElementById("loginForm").reset();
+    }
+
+    // // document.addEventListener("DOMContentLoaded", async () => {
+
+    //   const categorySelect = document.getElementById("categorySelect");
+    //   const occupationSelect = document.getElementById("occupationSelect");
+
+    //   if (categorySelect && occupationSelect) {
+    //     const catRes = await fetch("json/occupation-cat.json");
+    //     const categories = await catRes.json();
+    //     categories.forEach(cat => {
+    //       const option = document.createElement("option");
+    //       option.value = cat.toLowerCase();
+    //       option.textContent = cat;
+    //       categorySelect.appendChild(option);
+    //     });
+
+    //     categorySelect.addEventListener("change", async (event) => {
+    //       const value = event.target.value;
+    //       occupationSelect.innerHTML = '<option value="">Select Occupation</option>';
+    //       if (value) {
+    //         const occRes = await fetch(`json/${value}.json`);
+    //         const occupations = await occRes.json();
+    //         occupations.forEach(occ => {
+    //           const option = document.createElement("option");
+    //           option.value = occ;
+    //           option.textContent = occ;
+    //           occupationSelect.appendChild(option);
+    //         });
+    //       }
+    //     });
+    //   }
     
-    <div class="tab-pane fade" id="register" role="tabpanel">
-      <form id="registerForm">
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="firstName">First name</label>
-            <input id="firstName" type="text" class="form-control" placeholder="First name" />
-          </div>
-          <div class="form-group col-md-6">
-            <label for="lastName">Last name</label>
-            <input id="lastName" type="text" class="form-control" placeholder="Last name" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input id="email" type="email" class="form-control" placeholder="Email" />
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input id="password" type="password" class="form-control" placeholder="Password" />
-        </div>
-        <div class="form-group">
-          <label for="categorySelect">Select Occupation Category</label>
-          <select id="categorySelect" class="form-control">
-            <option value="">Select Occupation Category</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="occupationSelect">Select Occupation</label>
-          <select id="occupationSelect" class="form-control">
-            <option value="">Select Occupation</option>
-          </select>
-        </div>
-        <button type="button" class="btn btn-primary" onclick="submitRegister()">Register</button>
-      </form>
-    </div>
-  </div>
-</div>
-
-
-
-  async function submitRegister() {
-    const fname = document.getElementById("firstName").value;
-    const lname = document.getElementById("lastName").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const category = document.getElementById("categorySelect").value;
-    const occupation = document.getElementById("occupationSelect").value;
-
-    if (!fname || !lname || !email || !password || !category || !occupation) {
-      alert("Please fill all fields.");
-      return;
-    }
-
-    const userData = { fname, lname, email, password, category, occupation };
-
-    const response = await fetch("http://localhost:5000/api/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(userData)
-    });
-
-    const result = await response.text();
-    alert(result);
-  }
-
-  async function submitLogin() {
-    const email = document.getElementById("loginEmail").value;
-    const password = document.getElementById("loginPassword").value;
-
-    if (!email || !password) {
-      alert("Please enter email and password.");
-      return;
-    }
-
-    const response = await fetch("http://localhost:5000/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
-    });
-
-    const result = await response.text();
-    alert(result);
-  }
-
-  function logout() {
-    alert("Logged out successfully");
-    document.getElementById("loginForm").reset();
-  }
-
-  document.addEventListener("DOMContentLoaded", async () => {
-    const categorySelect = document.getElementById("categorySelect");
-    const occupationSelect = document.getElementById("occupationSelect");
-
-    if (categorySelect && occupationSelect) {
-      const catRes = await fetch("json/occupation-cat.json");
-      const categories = await catRes.json();
-      categories.forEach(cat => {
-        const option = document.createElement("option");
-        option.value = cat.toLowerCase();
-        option.textContent = cat;
-        categorySelect.appendChild(option);
-      });
-
-      categorySelect.addEventListener("change", async (event) => {
-        const value = event.target.value;
-        occupationSelect.innerHTML = '<option value="">Select Occupation</option>';
-        if (value) {
-          const occRes = await fetch(`json/${value}.json`);
-          const occupations = await occRes.json();
-          occupations.forEach(occ => {
-            const option = document.createElement("option");
-            option.value = occ;
-            option.textContent = occ;
-            occupationSelect.appendChild(option);
-          });
+async function loadCategories() {
+        try {
+          const data = await fetchJSON('./json/occupation-cat.json');
+          occupationCat(data.categories);
+        } catch (error) {
+          console.error(error);
         }
-      });
-    }
-  });
+      }
 
 
   </script>
+
+  <script src="js/form.js"></script>
+
 </body>
 
 </html>

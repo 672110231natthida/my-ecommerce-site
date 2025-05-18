@@ -6,7 +6,7 @@ const registerRoute = require("./routes/register");
 const loginRoute = require("./routes/login");
 
 const app = express();
-const PORT = 5000;แก
+const PORT = 4000;
 
 app.use(cors());
 app.use(bodyParser.json());
