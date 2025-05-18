@@ -1545,16 +1545,18 @@
 
                 </form>
               </div>
+
+              <!-- register -->
               <div role="tabpanel" class="tab-pane" id="register">
                 <form method="post" data-aos="fade">
 
                   <!-- First & Last Name -->
                   <div class="form-group row">
                     <div class="col-md-6 mb-3 mb-lg-0">
-                      <input type="text" class="form-control" placeholder="First name" id="first-name">
+                      <input type="text" class="form-control" placeholder="First name" id="firstname">
                     </div>
                     <div class="col-md-6">
-                      <input type="text" class="form-control" placeholder="Last name" id="last-name">
+                      <input type="text" class="form-control" placeholder="Last name" id="lastname">
                     </div>
                   </div>
 
@@ -1586,47 +1588,48 @@
                     </div>
                   </div>
 
-              <div class="form-group row">
-                <div class="col-md-6">
+                  <div class="form-group row">
+                    <div class="col-md-6">
 
-                  <input type="submit" onclick ="submitRegister()" class="btn btn-primary py-3 px-5 btn-block" value="Register">
-                </div>
+                      <input type="submit" onclick="submitRegister()" class="btn btn-primary py-3 px-5 btn-block"
+                        value="Register">
+                    </div>
+                  </div>
+
+                </form>
               </div>
+              <div role="tabpanel" class="tab-pane" id="sign-in">
+                <form method="post" data-aos="fade">
 
-              </form>
+                  <div class="form-group row">
+                    <div class="col-md-12">
+                      <input type="text" class="form-control" placeholder="Username">
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="col-md-12">
+                      <input type="password" class="form-control" placeholder="Password">
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="col-md-6">
+
+                      <input type="submit" class="btn btn-primary py-3 px-5 btn-block" value="Login">
+                    </div>
+                  </div>
+
+                </form>
+              </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="sign-in">
-              <form method="post" data-aos="fade">
 
-                <div class="form-group row">
-                  <div class="col-md-12">
-                    <input type="text" class="form-control" placeholder="Username">
-                  </div>
-                </div>
-
-                <div class="form-group row">
-                  <div class="col-md-12">
-                    <input type="password" class="form-control" placeholder="Password">
-                  </div>
-                </div>
-
-                <div class="form-group row">
-                  <div class="col-md-6">
-
-                    <input type="submit" class="btn btn-primary py-3 px-5 btn-block" value="Login">
-                  </div>
-                </div>
-
-              </form>
-            </div>
           </div>
 
+
         </div>
-
-
       </div>
     </div>
-  </div>
   </div>
 
 
@@ -1711,9 +1714,7 @@
   <script src="js/main.js"></script>
 
   <script>
-    <select id="category">
-      <option value="">-- Select Category --</option>
-    </select>
+   
 
 
 
@@ -1809,15 +1810,7 @@
       const select = document.getElementById("subject-select");
       alert(select.value)
     }
-    window.onload = function () {
-      const contact = document.getElementById("contact-head");
-      contact.innerHTML = "HIIIIII";
 
-      loadDoc("./xml/class_sunday.xml", classXML);
-      loadDoc("./json/class_sunday.json", classJSON);
-      loadSubject('http://localhost:4000/api/subject');
-      loadCategories();
-    };
     //AJAX Function
     const ajax = async (config) => {
       const request = await fetch(config.url, {
@@ -1834,7 +1827,7 @@
     }
 
 
-7
+    
     function submitContact() {
       const data = {
         fname: document.getElementById("fname").value,
@@ -1846,7 +1839,7 @@
       console.log(data);
 
     }
-  
+
     async function submitRegister() {
       const fname = document.getElementById("firstName").value;
       const lname = document.getElementById("lastName").value;
@@ -1896,46 +1889,24 @@
       document.getElementById("loginForm").reset();
     }
 
-    // // document.addEventListener("DOMContentLoaded", async () => {
-
-    //   const categorySelect = document.getElementById("categorySelect");
-    //   const occupationSelect = document.getElementById("occupationSelect");
-
-    //   if (categorySelect && occupationSelect) {
-    //     const catRes = await fetch("json/occupation-cat.json");
-    //     const categories = await catRes.json();
-    //     categories.forEach(cat => {
-    //       const option = document.createElement("option");
-    //       option.value = cat.toLowerCase();
-    //       option.textContent = cat;
-    //       categorySelect.appendChild(option);
-    //     });
-
-    //     categorySelect.addEventListener("change", async (event) => {
-    //       const value = event.target.value;
-    //       occupationSelect.innerHTML = '<option value="">Select Occupation</option>';
-    //       if (value) {
-    //         const occRes = await fetch(`json/${value}.json`);
-    //         const occupations = await occRes.json();
-    //         occupations.forEach(occ => {
-    //           const option = document.createElement("option");
-    //           option.value = occ;
-    //           option.textContent = occ;
-    //           occupationSelect.appendChild(option);
-    //         });
-    //       }
-    //     });
-    //   }
-    
-async function loadCategories() {
-        try {
-          const data = await fetchJSON('./json/occupation-cat.json');
-          occupationCat(data.categories);
-        } catch (error) {
-          console.error(error);
-        }
+    async function loadCategories() {
+      try {
+        const data = await fetchJSON('./json/occupation-cat.json');
+        occupationCat(data.categories);
+      } catch (error) {
+        console.error(error);
       }
+    }
 
+    window.onload = function () {
+      const contact = document.getElementById("contact-head");
+      contact.innerHTML = "HIIIIII";
+
+      loadDoc("./xml/class_sunday.xml", classXML);
+      loadDoc("./json/class_sunday.json", classJSON);
+      loadSubject('http://localhost:4000/api/subject');
+      loadCategories();
+    };
 
   </script>
 
