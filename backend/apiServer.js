@@ -1,19 +1,19 @@
-// backend/apiServer.js
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const registerRoute = require("./routes/register");
-const loginRoute = require("./routes/login");
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = 5000;
+const PORT = 4000;
 
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use("/api/register", registerRoute);
-app.use("/api/login", loginRoute);
+app.use('/api/subject', require('./routes/subject'));
+app.use('/api/contact', require('./routes/contact'));
+// app.use('/api/subscribe', require('./routes/subscribe'));
+app.use('/api/register', require('./routes/register'));
+// app.use('/api/login', require('./routes/login'));
 
 app.listen(PORT, () => {
-  console.log(`API Server running on http://localhost:${PORT}`);
+    console.log("Server is running at http://localhost:" + PORT);
 });

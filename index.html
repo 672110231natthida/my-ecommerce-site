@@ -1514,7 +1514,7 @@
 
                   <div class="form-group row">
                     <div class="col-md-12">
-                      <input id="email" type="text" class="form-control" placeholder="Email">
+                      <input id="email" type="email" class="form-control" placeholder="Email">
                     </div>
                   </div>
 
@@ -1591,7 +1591,7 @@
                   <div class="form-group row">
                     <div class="col-md-6">
 
-                      <input type="submit" onclick="submitRegister()" class="btn btn-primary py-3 px-5 btn-block"
+                      <input type="button" onclick="submitRegister()" class="btn btn-primary py-3 px-5 btn-block"
                         value="Register">
                     </div>
                   </div>
@@ -1714,7 +1714,7 @@
   <script src="js/main.js"></script>
 
   <script>
-   
+
 
 
 
@@ -1814,56 +1814,76 @@
     //AJAX Function
     const ajax = async (config) => {
       const request = await fetch(config.url, {
-        method: config.method || 'GET',
+        method: config.method,
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(config.data)
       });
+      console.log(request);
       const response = await request.json();
       console.log(response);
       return response;
     }
 
+    async function submitContact() {
+      const fname = document.getElementById("fname").value.trim();
+      const lname = document.getElementById("lname").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const subject = document.getElementById("subject-select").value.trim();
+      const message = document.getElementById("message").value.trim();
 
-    
-    function submitContact() {
-      const data = {
-        fname: document.getElementById("fname").value,
-        lname: document.getElementById("lname").value,
-        email: document.getElementById("email").value,
-        subject: document.getElementById("subject-select").value,
-        message: document.getElementById("message").value
+      if (!fname || !lname || !email || !subject || !message) {
+        alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
+        return;
       }
-      console.log(data);
 
+      const data = { fname, lname, email, subject, message };
+
+      try {
+        const response = await ajax({
+          url: 'http://localhost:4000/api/contact',
+          method: "POST",
+          data: data
+        });
+        alert("Contact submitted!");
+      } catch (err) {
+        console.error("Contact submit error:", err);
+        alert("Error submitting contact form.");
+      }
     }
 
     async function submitRegister() {
-      const fname = document.getElementById("firstName").value;
-      const lname = document.getElementById("lastName").value;
-      const email = document.getElementById("reg-email").value;
-      const password = document.getElementById("reg-password").value;
+      const fname = document.getElementById("firstname").value.trim();
+      const lname = document.getElementById("lastname").value.trim();
+      const email = document.getElementById("reg-email").value.trim();
+      const password = document.getElementById("reg-password").value.trim();
       const category = document.getElementById("occupation-category").value;
       const occupation = document.getElementById("occupation").value;
 
       if (!fname || !lname || !email || !password || !category || !occupation) {
-        alert("Please fill all fields.");
+        alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
         return;
       }
 
       const userData = { fname, lname, email, password, category, occupation };
 
-      const response = await fetch("http://localhost:5000/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData)
-      });
+      try {
+        const response = await fetch("http://localhost:4000/api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userData)
+        });
 
-      const result = await response.text();
-      alert(result);
+        const result = await response.text();
+        alert(result);
+      } catch (err) {
+        console.error("Register Error:", err.message);
+        alert("เกิดข้อผิดพลาดในการสมัครสมาชิก");
+      }
     }
+
 
     async function submitLogin() {
       const email = document.getElementById("loginEmail").value;
@@ -1874,7 +1894,7 @@
         return;
       }
 
-      const response = await fetch("http://localhost:5000/api/login", {
+      const response = await fetch("http://localhost:4000/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
@@ -1889,23 +1909,14 @@
       document.getElementById("loginForm").reset();
     }
 
-    async function loadCategories() {
-      try {
-        const data = await fetchJSON('./json/occupation-cat.json');
-        occupationCat(data.categories);
-      } catch (error) {
-        console.error(error);
-      }
-    }
 
     window.onload = function () {
       const contact = document.getElementById("contact-head");
-      contact.innerHTML = "Woowwwwww";
+      contact.innerHTML = "WoWww";
 
       loadDoc("./xml/class_sunday.xml", classXML);
       loadDoc("./json/class_sunday.json", classJSON);
       loadSubject('http://localhost:4000/api/subject');
-      loadCategories();
     };
 
   </script>
